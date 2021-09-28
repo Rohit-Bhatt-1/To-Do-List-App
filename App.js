@@ -16,6 +16,12 @@ export default function App() {
   const [newToDo, setNewToDo] = useState("");
   const [myToDoList, setMyToDoList] = useState([]);
 
+  const deleteItem = (item) => {
+    console.log("In", item);
+    let newList = myToDoList.filter((ToDo) => ToDo.key !== item);
+    setMyToDoList(newList);
+  };
+
   return (
     <View style={styles.screen}>
       <NewToDo
@@ -26,8 +32,20 @@ export default function App() {
       />
       <FlatList
         data={myToDoList}
-        renderItem={(itemData) => <ToDoItem item={itemData.item.value} />}
+        renderItem={(itemData) => (
+          <ToDoItem
+            item={itemData.item}
+            deleteItem={deleteItem.bind(this, itemData.item.key)}
+          />
+        )}
       />
+      {/* <ScrollView style={styles.myList}>
+        {myToDoList.map((myToDo, index) => (
+          <Text style={styles.listItem} key={index}>
+            {myToDo}
+          </Text>
+        ))}
+      </ScrollView> */}
     </View>
   );
 }
