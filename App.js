@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ScrollView,
+} from "react-native";
 
 export default function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -11,8 +18,8 @@ export default function App() {
   };
 
   const addToDo = () => {
-    setMyToDoList((myToDoList) => [...myToDoList, newTodo]);
-    console.log(newTodo);
+    setMyToDoList(() => [...myToDoList, newTodo]);
+    // console.log(myToDoList);
     setNewTodo("");
   };
 
@@ -27,6 +34,13 @@ export default function App() {
         />
         <Button title="Add" onPress={addToDo} />
       </View>
+      <ScrollView style={styles.myList}>
+        {myToDoList.map((myToDo, index) => (
+          <Text style={styles.listItem} key={index}>
+            {myToDo}
+          </Text>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -47,5 +61,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderRightWidth: 2,
     alignContent: "space-between",
+  },
+  listItem: {
+    borderColor: "black",
+    borderWidth: 1,
+    backgroundColor: "gray",
+    marginBottom: 14,
+  },
+  myList: {
+    paddingTop: 10,
   },
 });
