@@ -7,40 +7,27 @@ import {
   TextInput,
   Button,
   ScrollView,
+  FlatList,
 } from "react-native";
+import NewToDo from "./components/NewToDo";
+import ToDoItem from "./components/ToDoItem";
 
 export default function App() {
-  const [newTodo, setNewTodo] = useState("");
+  const [newToDo, setNewToDo] = useState("");
   const [myToDoList, setMyToDoList] = useState([]);
-
-  const getNewToDo = (ToDo) => {
-    setNewTodo(ToDo);
-  };
-
-  const addToDo = () => {
-    setMyToDoList(() => [...myToDoList, newTodo]);
-    // console.log(myToDoList);
-    setNewTodo("");
-  };
 
   return (
     <View style={styles.screen}>
-      <View style={styles.newTask}>
-        <TextInput
-          style={styles.newTaskDef}
-          placeholder="Enter a new To-Do"
-          onChangeText={getNewToDo}
-          value={newTodo}
-        />
-        <Button title="Add" onPress={addToDo} />
-      </View>
-      <ScrollView style={styles.myList}>
-        {myToDoList.map((myToDo, index) => (
-          <Text style={styles.listItem} key={index}>
-            {myToDo}
-          </Text>
-        ))}
-      </ScrollView>
+      <NewToDo
+        enteredToDo={newToDo}
+        setNewToDo={setNewToDo}
+        setMyToDoList={setMyToDoList}
+        myToDoList={myToDoList}
+      />
+      <FlatList
+        data={myToDoList}
+        renderItem={(itemData) => <ToDoItem item={itemData.item.value} />}
+      />
     </View>
   );
 }
@@ -50,18 +37,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 40,
   },
-  newTask: {
-    flexDirection: "row",
-  },
-  newTaskDef: {
-    flex: 1,
-    borderColor: "black",
-    height: 35,
-    marginRight: 10,
-    borderBottomWidth: 1,
-    borderRightWidth: 2,
-    alignContent: "space-between",
-  },
+
   listItem: {
     borderColor: "black",
     borderWidth: 1,
